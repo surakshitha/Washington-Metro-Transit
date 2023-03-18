@@ -11,7 +11,7 @@ code {
     monospace;
 }
 
-table, th, td {
+table, th , td{
   border : 2px solid black;
   margin: auto;
   border-collapse: collapse;
@@ -22,3 +22,46 @@ th, td {
   text-align: center;
 }
 
+table .train-line_null {
+  color: grey;
+}
+
+table .train-line_BL {
+  color: blue;
+}
+
+table .train-line_GR {
+  color: green;
+}
+
+table .train-line_OR {
+  color: orange;
+}
+
+table .train-line_SV {
+  color: silver;
+}
+
+table .train-line_YL {
+  color: yellow;
+}
+
+table .train-line_RD {
+  color: red;
+}
+
+.circle{
+  background-color: lightgrey;
+  display:block;
+  height:100%;
+  width:100%;
+  border-radius:50%;
+  border:2px solid #000;
+  margin:auto;
+  line-height:50px;
+  text-align:center
+}
+
+.filters {
+  margin: 1%;
+}

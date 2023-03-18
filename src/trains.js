@@ -89,9 +89,9 @@ class Trains extends Component {
         return (
             <div>
                 <h1>WMATA Train positions</h1>
-                <div className='filter'>
+                <div className='filters'>
                     <label className='label_trains'>Filter by:</label>
-                    <select name="filters" onChange={(e) => { this.setFilter(e) }}>
+                    <select className="filters" onChange={(e) => { this.setFilter(e) }}>
                         {
                             this.state.filters.map(filter => {
                                 return <option>{filter}</option>
@@ -99,15 +99,15 @@ class Trains extends Component {
                         }
                     </select>
                     <label className='label_values'> Having value: </label>
-                    {this.state.selectedFilter && <select name="filter-value" onChange={(e) => { this.setValue(e) }}>
+                    {this.state.selectedFilter && <select className="filters" onChange={(e) => { this.setValue(e) }}>
                         {
                             this.state.values[this.state.selectedFilter].map(value => {
                                 return <option>{value}</option>
                             })
                         }
                     </select>}
+                    {this.state.selectedValue !== '' && <input type="submit" value="Submit" onClick={() => { this.getFilteredData(this.state.selectedFilter, this.state.selectedValue) }} />}
                 </div>
-                {this.state.selectedValue !== '' && <input type="submit" value="Submit" onClick={() => { this.getFilteredData(this.state.selectedFilter, this.state.selectedValue) }} />}
                 <div className='table-display'>
                     <TrainTable
                         trains={this.state.trains}

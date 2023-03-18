@@ -8,11 +8,13 @@ class Trains extends Component {
             trains: [],
             selectedFilter: '',
             selectedValue: '',
+            searchResults: [],
+            noResults: false,
             filters: ["", "Service Type", "Car Count", "Train Line"],
             values: {
                 "Service Type": ["Normal", "NoPassengers", "Special", "Unknown"],
-                "Car Count": ["5", "10", "15"],
-                "Train Line": ["BL", "SV", 'RD', 'YL', 'OR', 'GR']
+                "Car Count": [0, 2, 4, 6, 8, 10, 12, 14, 16],
+                "Train Line": ["BL", "SV", 'RD', 'YL', 'OR', 'GR'],
                 // ["Blue", "Red", "Silver", "Yellow", "Orange", "Green"]
             }
         }
@@ -46,7 +48,6 @@ class Trains extends Component {
                 result => {
                     this.setState({
                         trains: result.TrainPositions
-                        //receive as TrainPositions[int n]
                     })
                 },
                 error => {
@@ -56,24 +57,40 @@ class Trains extends Component {
     }
 
     getFilteredData = (selectedFilter, selectedValue) => {
-        let filteredTrains = [];
         if (selectedFilter === "Service Type") {
-            filteredTrains = this.state.trains.filter(train => train.ServiceType === selectedValue)
+            let filteredTrains = this.state.trains.filter(train => train.ServiceType === selectedValue)
             this.setState({
-                trains: filteredTrains
+                searchResults: filteredTrains
             });
         }
         else if (selectedFilter === "Car Count") {
-            filteredTrains = this.state.trains.filter(train => train.CarCount <= selectedValue)
+            let filteredTrains = this.state.trains.filter(train => train.CarCount <= selectedValue)
             this.setState({
-                trains: filteredTrains
+                searchResults: filteredTrains
             });
         }
         else {
-            filteredTrains = this.state.trains.filter(train => train.LineCode === selectedValue)
+            let filteredTrains = this.state.trains.filter(train => train.LineCode === selectedValue)
             this.setState({
-                trains: filteredTrains
+                searchResults: filteredTrains
             });
+        }
+        if (!this.state.searchResults.length) {
+            this.setState({
+                noResults: true,
+            });
+        }
+    }
+
+    getTrains = () => {
+        if (this.state.noResults && !this.state.searchResults.length) {
+            return [];
+        }
+        else if (this.state.searchResults.length) {
+            return this.state.searchResults;
+        }
+        else {
+            return this.state.trains;
         }
     }
 
@@ -89,28 +106,35 @@ class Trains extends Component {
         return (
             <div>
                 <h1>WMATA Train positions</h1>
-                <div className='filters'>
-                    <label className='label_trains'>Filter by:</label>
-                    <select className="filters" onChange={(e) => { this.setFilter(e) }}>
-                        {
-                            this.state.filters.map(filter => {
-                                return <option>{filter}</option>
-                            })
-                        }
-                    </select>
-                    <label className='label_values'> Having value: </label>
-                    {this.state.selectedFilter && <select className="filters" onChange={(e) => { this.setValue(e) }}>
-                        {
-                            this.state.values[this.state.selectedFilter].map(value => {
-                                return <option>{value}</option>
-                            })
-                        }
-                    </select>}
-                    {this.state.selectedValue !== '' && <input type="submit" value="Submit" onClick={() => { this.getFilteredData(this.state.selectedFilter, this.state.selectedValue) }} />}
+                <div className='filters-wrapper'>
+                    <div className='wrapper-filter'>
+                        <label className='label_trains'>Filter by:</label>
+                        <select className="filters" onChange={(e) => { this.setFilter(e) }}>
+                            {
+                                this.state.filters.map(filter => {
+                                    return <option>{filter}</option>
+                                })
+                            }
+                        </select>
+                    </div>
+                    {this.state.selectedFilter &&
+                        <div className='wrapper-value'>
+                            <label className='label_values'> Having value: </label>
+                            {this.state.selectedFilter &&
+                                <select className="filters" onChange={(e) => { this.setValue(e) }}>
+                                    {
+                                        this.state.values[this.state.selectedFilter].map(value => {
+                                            return <option>{value}</option>
+                                        })
+                                    }
+                                </select>}
+                            {this.state.selectedValue !== '' &&
+                                <input type="submit" value="Submit" onClick={() => { this.getFilteredData(this.state.selectedFilter, this.state.selectedValue) }} />}
+                        </div>}
                 </div>
                 <div className='table-display'>
                     <TrainTable
-                        trains={this.state.trains}
+                        trains={this.getTrains()}
                     />
                 </div>
             </div>

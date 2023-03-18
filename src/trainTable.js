@@ -11,12 +11,14 @@ class TrainTable extends Component {
     render() {
         let trainPositions = Object.keys(this.props.trains).map(id => this.props.trains[id]);
         let rows = [];
+        let count = 1;
 
-        trainPositions.forEach(train => {
+        trainPositions.forEach((train) => {
             rows.push(
                 <TrainRow
                     train={train}
                     key={train.TrainId}
+                    id={count++}
                 />
             )
         })
@@ -25,11 +27,12 @@ class TrainTable extends Component {
             <table className='train-table'>
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>TrainID</th>
+                        <th>Train Number</th>
                         <th>Train Line</th>
                         <th>Service Type</th>
                         <th>Cars</th>
-                        <th>Train Number</th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>

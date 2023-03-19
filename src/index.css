@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: auto auto 10% auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -22,9 +22,9 @@ th, td {
   text-align: center;
 }
 
-table .train-line_null {
-  color: grey;
-}
+/* table .train-line_null {
+  background-color: grey;
+} */
 
 table .train-line_BL {
   color: blue;
@@ -39,7 +39,7 @@ table .train-line_OR {
 }
 
 table .train-line_SV {
-  color: silver;
+  color: rgb(121, 117, 117);
 }
 
 table .train-line_YL {
@@ -53,15 +53,38 @@ table .train-line_RD {
 .circle{
   background-color: lightgrey;
   display:block;
-  height:100%;
-  width:100%;
+  height:50%;
+  width:60%;
   border-radius:50%;
-  border:2px solid #000;
   margin:auto;
   line-height:50px;
-  text-align:center
+  text-align:center;
+  font-weight: bold;
 }
 
-.filters {
+.input-container, input {
   margin: 1%;
+}
+
+.input_value, .input_parameters {
+  width: 10%;
+}
+
+.filter-wrapper, .value-wrapper {
+  display: inline;
+  margin: auto;
+  padding: 1%;
+}
+
+.image-cell {
+  position: relative;
+}
+
+.text-overlay {
+  position: absolute;
+  font-weight: bold;
+  top: 10%;
+  left: 30%;
+  z-index: 1;
+  padding: 10px;
 }

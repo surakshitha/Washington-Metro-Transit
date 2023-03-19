@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TrainRow from './trainRow';
+import ErrorMessage from './errorMessage';
 
 class TrainTable extends Component {
     constructor(props) {
@@ -37,7 +38,7 @@ class TrainTable extends Component {
                 </thead>
                 <tbody>{rows}</tbody>
             </table>
-        </div>) : 'No trains');
+        </div>) : <ErrorMessage message={'No trains'} />);
     }
 }
 

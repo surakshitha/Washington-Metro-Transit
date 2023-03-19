@@ -83,8 +83,8 @@ table .train-line_RD {
 .text-overlay {
   position: absolute;
   font-weight: bold;
-  top: 10%;
-  left: 30%;
+  top: 14%;
+  left: 26%;
   z-index: 1;
   padding: 10px;
 }

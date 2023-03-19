@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 
 class TrainRow extends Component {
     render() {
+        let carValue = this.props.train.CarCount !== 0 ? this.props.train.CarCount : '0';
+        let carImage = '../../img/cargo_'+carValue+'.png';
+
         return (
             <tr>
                 <td>{this.props.id}</td>
@@ -14,9 +17,9 @@ class TrainRow extends Component {
                 </td>
                 <td>{this.props.train.ServiceType}</td>
                 <td className='image-cell'>
-                    <img src="../../img/cargo-train.jpg" alt='train-car' width="40" height="40" />
+                    <img src={carImage} alt='train-car' width="40" height="30" />
                     <span className='text-overlay'>
-                        {this.props.train.CarCount !== 0 ? this.props.train.CarCount : '0'}
+                        {carValue}
                     </span>
                 </td>
             </tr>

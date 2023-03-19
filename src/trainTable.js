@@ -27,6 +27,9 @@ class TrainTable extends Component {
                         <th>ID</th>
                         <th>TrainID</th>
                         <th>Train Number</th>
+                        <th>CircuitID</th>
+                        <th>Destination</th>
+                        <th>Time at location</th>
                         <th>Train Line</th>
                         <th>Service Type</th>
                         <th>Cars</th>

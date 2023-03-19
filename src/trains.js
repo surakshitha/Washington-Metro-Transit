@@ -9,7 +9,7 @@ class Trains extends Component {
             trains: [],
             selectedFilter: '',
             selectedValue: '',
-            searchResults: [],
+            filteredResults: [],
             noResults: false,
             filters: ['Service Type', 'Car Count', 'Train Line'],
             values: {
@@ -25,10 +25,15 @@ class Trains extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.trains !== prevState.trains) {
-            //   setInterval(this.getData(), 100000);
+            setTimeout(() => { this.getData() }, 10000);
         }
     }
 
+    /**
+    * Fetches train positions data from the api
+    * handles success or failure of request 
+    * @param {string} writerId - The Id of the writer.
+    */
     getData = () => {
         const url = 'https://api.wmata.com/TrainPositions/TrainPositions?contentType={json}&api_key=5c5c537b010d4164aae7d5315ad57942';
         fetch(url
@@ -43,7 +48,6 @@ class Trains extends Component {
         )
             .then(res => res.json())
             .then(
-
                 result => {
                     this.setState({
                         trains: result.TrainPositions
@@ -52,63 +56,80 @@ class Trains extends Component {
                 },
                 error => {
                     console.log('Fetch Error: ', error)
-                    return <ErrorMessage message={'An error occured.'}/>
+                    return <ErrorMessage message={'An error occured.'} />
                 }
             )
     }
 
+    /**
+    * Filters train positions based on user's input 
+    * @param {string} selectedFilter - The train parameter to filter by.
+    * @param {string} selectedValue - The specific value of parameter to filter by.
+    */
     getFilteredData = (selectedFilter, selectedValue) => {
         if (selectedFilter === 'Service Type') {
             let filteredTrains = this.state.trains.filter(train => train.ServiceType === selectedValue)
             this.setState({
-                searchResults: filteredTrains
+                filteredResults: filteredTrains
             });
         }
         else if (selectedFilter === 'Car Count') {
             let filteredTrains = this.state.trains.filter(train => train.CarCount === parseInt(selectedValue))
             this.setState({
-                searchResults: filteredTrains
+                filteredResults: filteredTrains
             });
         }
         else {
             let filteredTrains = this.state.trains.filter(train => train.LineCode === selectedValue)
             this.setState({
-                searchResults: filteredTrains
+                filteredResults: filteredTrains
             });
         }
-        if (!this.state.searchResults.length) {
+        if (!this.state.filteredResults.length) {
             this.setState({
                 noResults: true,
             });
         }
     }
 
+    /**
+    * Returns trains array in event of api request or filter action
+    */
     getTrains = () => {
-        if (this.state.noResults && !this.state.searchResults.length) {
+        if (this.state.noResults && !this.state.filteredResults.length) {
             return [];
         }
-        else if (this.state.searchResults.length) {
-            return this.state.searchResults;
+        else if (this.state.filteredResults.length) {
+            return this.state.filteredResults;
         }
         else {
             return this.state.trains;
         }
     }
 
+    /**
+    * Generates list of train car lengths currently available
+    * values for car-count dropdown options*/
     getCars = () => {
         const uniqueCarCounts = [...new Set(this.state.trains.map(item => item.CarCount))].sort();
         this.setState({
-            values : {
+            values: {
                 ...this.state.values,
                 'Car Count': uniqueCarCounts
             }
         });
     }
 
+    /**
+    * Capture and store filter parameter in state
+    */
     setFilter = (e) => {
         this.setState({ selectedFilter: e.target.value });
     }
 
+    /**
+    * Capture and store filter parameter's value in state
+    */
     setValue = (e) => {
         this.setState({ selectedValue: e.target.value });
     }

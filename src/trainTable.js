@@ -3,11 +3,6 @@ import TrainRow from './trainRow';
 import ErrorMessage from './errorMessage';
 
 class TrainTable extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-        }
-    }
 
     render() {
         let trainPositions = Object.keys(this.props.trains).map(id => this.props.trains[id]);
@@ -15,6 +10,7 @@ class TrainTable extends Component {
         let count = 1;
 
         trainPositions.forEach((train) => {
+            // generate a row component for each train 
             rows.push(
                 <TrainRow
                     train={train}
